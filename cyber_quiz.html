@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test your cybersecurity knowledge with our interactive quiz covering threats, safe browsing, passwords, and more.">
+    <title>Cybersecurity Quiz - CyberWorld</title>
+    <link rel="icon" href="shield.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .option-label { display: block; margin: 8px 0; color: #8892b0; cursor: pointer; }
+        .option-label:hover { color: #ffffff; }
+        #explanation { margin-top: 12px; padding: 10px 14px; border-radius: 4px; display: none; font-size: 0.9em; }
+        #timer { font-size: 0.9em; color: #e8a23a; font-weight: bold; margin-bottom: 16px; }
+        #score-banner { display: none; text-align: center; padding: 20px; border-radius: 6px; margin-bottom: 20px; font-size: 1.2em; font-weight: bold; }
+        #restart-btn { display: none; }
+        #submit-btn { display: inline-block; }
+    </style>
+    <script>
+        var questions = [
+            "What is phishing?",
+            "Which of these is a strong password?",
+            "What does 2FA stand for?",
+            "What type of attack encrypts your files and demands payment?",
+            "Which action is safest on public WiFi?",
+            "What is a Man-in-the-Middle attack?",
+            "What does HTTPS mean for a website?",
+            "What is social engineering?",
+            "Which of these is NOT a type of malware?",
+            "Which attack floods a server to make it unavailable?"
+        ];
+
+        var options = [
+            ["A virus that deletes files", "A scam to steal your information", "A type of firewall", "An encrypted connection"],
+            ["123456", "password123", "X7@kP9!mZ2#v", "myname2000"],
+            ["Two-Factor Authentication", "Two-File Access", "Trusted Firewall Agent", "Two-Form Authorization"],
+            ["Phishing", "Ransomware", "Spyware", "DDoS"],
+            ["Online banking", "Using a VPN", "Sharing files", "Disabling your firewall"],
+            ["Malware that deletes files", "An attacker secretly intercepts communication between two parties", "A brute-force password attack", "A phone scam"],
+            ["It loads faster", "It is government-approved", "The connection is encrypted", "It has no ads"],
+            ["Building secure software", "Manipulating people into revealing confidential information", "Designing social media algorithms", "Encrypting network traffic"],
+            ["Trojan horse", "Worm", "Firewall", "Spyware"],
+            ["SQL Injection", "Cross-Site Scripting", "DDoS", "Zero-Day Exploit"]
+        ];
+
+        var answers = [1, 2, 0, 1, 1, 1, 2, 1, 2, 2];
+
+        var explanations = [
+            "Phishing uses fake emails or websites to trick you into handing over passwords and personal data.",
+            "Strong passwords mix uppercase, lowercase, numbers and symbols and are at least 12 characters long.",
+            "Two-Factor Authentication adds a second verification step beyond your password, making accounts much harder to break into.",
+            "Ransomware locks or encrypts your files and demands payment for the decryption key.",
+            "A VPN encrypts your internet traffic so others on the same network cannot spy on what you are doing.",
+            "In a Man-in-the-Middle attack, the attacker secretly sits between two people communicating and can read or change the messages.",
+            "HTTPS uses encryption to protect data sent between your browser and the website you are visiting.",
+            "Social engineering tricks people using psychology rather than hacking software, for example by pretending to be IT support.",
+            "A firewall is a security tool that blocks unwanted traffic. It is defensive, not malicious.",
+            "A DDoS (Distributed Denial-of-Service) attack floods a server with fake requests until it crashes and real users cannot reach it."
+        ];
+
+        var current = 0;
+        var score = 0;
+        var timerInterval;
+        var timeLeft = 0;
+
+        function renderQuestion() {
+            document.getElementById("question-text").innerHTML = "Q" + (current + 1) + " of " + questions.length + ": " + questions[current];
+
+            var optHTML = "";
+            for (var i = 0; i < options[current].length; i++) {
+                optHTML += "<label class='option-label'><input type='radio' name='opt' value='" + i + "'> " + options[current][i] + "</label>";
+            }
+            document.getElementById("options-area").innerHTML = optHTML;
+            document.getElementById("explanation").style.display = "none";
+            document.getElementById("submit-btn").style.display = "inline-block";
+            startTimer(20);
+        }
+
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            timeLeft = seconds;
+            document.getElementById("timer").innerHTML = "Time remaining: " + timeLeft + "s";
+            timerInterval = setInterval(function() {
+                timeLeft = timeLeft - 1;
+                document.getElementById("timer").innerHTML = "Time remaining: " + timeLeft + "s";
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showExplanation(-1);
+                }
+            }, 1000);
+        }
+
+        function submitAnswer() {
+            var selected = document.querySelector("input[name='opt']:checked");
+            if (!selected) {
+                return;
+            }
+            clearInterval(timerInterval);
+            showExplanation(parseInt(selected.value));
+        }
+
+        function showExplanation(chosen) {
+            document.getElementById("submit-btn").style.display = "none";
+
+            var radios = document.querySelectorAll("input[name='opt']");
+            for (var i = 0; i < radios.length; i++) {
+                radios[i].disabled = true;
+            }
+
+            var box = document.getElementById("explanation");
+            box.style.display = "block";
+
+            if (chosen === answers[current]) {
+                score = score + 1;
+                box.style.background = "#0d2a1a";
+                box.style.color = "#3ae87a";
+                box.style.border = "1px solid #3ae87a";
+                box.innerHTML = "Correct! " + explanations[current];
+            } else {
+                box.style.background = "#2a0d0d";
+                box.style.color = "#e83a3a";
+                box.style.border = "1px solid #e83a3a";
+                if (chosen === -1) {
+                    box.innerHTML = "Time's up! The answer was: " + options[current][answers[current]] + ". " + explanations[current];
+                } else {
+                    box.innerHTML = "Incorrect. The answer was: " + options[current][answers[current]] + ". " + explanations[current];
+                }
+            }
+
+            setTimeout(nextQuestion, 2000);
+        }
+
+        function nextQuestion() {
+            current = current + 1;
+            if (current < questions.length) {
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            clearInterval(timerInterval);
+            document.getElementById("timer").innerHTML = "";
+            document.getElementById("question-text").innerHTML = "";
+            document.getElementById("options-area").innerHTML = "";
+            document.getElementById("explanation").style.display = "none";
+
+            var banner = document.getElementById("score-banner");
+            banner.style.display = "block";
+
+            if (score >= 8) {
+                banner.style.color = "#3ae87a";
+                banner.style.border = "1px solid #3ae87a";
+                banner.innerHTML = "Score: " + score + "/" + questions.length + " — Excellent! You're cyber-savvy.";
+            } else if (score >= 5) {
+                banner.style.color = "#e8a23a";
+                banner.style.border = "1px solid #e8a23a";
+                banner.innerHTML = "Score: " + score + "/" + questions.length + " — Good effort! Review the areas you missed.";
+            } else {
+                banner.style.color = "#e83a3a";
+                banner.style.border = "1px solid #e83a3a";
+                banner.innerHTML = "Score: " + score + "/" + questions.length + " — Keep learning — CyberWorld has you covered!";
+            }
+
+            document.getElementById("restart-btn").style.display = "inline-block";
+        }
+
+        function restartQuiz() {
+            current = 0;
+            score = 0;
+            document.getElementById("score-banner").style.display = "none";
+            document.getElementById("restart-btn").style.display = "none";
+            renderQuestion();
+        }
+
+        window.onload = function() {
+            renderQuestion();
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <div>
+            <img src="shield.png" alt="Cyber World Logo">
+            <h4>CyberWorld</h4>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="cyber_threats.html">Cyber Threats</a>
+            <a href="stay_safe_online.html">Stay Safe Online</a>
+            <a href="password_guide.html">Password Guide</a>
+            <a href="phishing_spotter.html">Phishing Spotter</a>
+            <a href="cyber_quiz.html">Test Your Knowledge</a>
+            <a href="cybersecurity_news.html">Cybersecurity News</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+    <main>
+        <div>
+            <h2>Cybersecurity Quiz</h2>
+            <p>10 questions and 20 seconds each. An explanation is shown after every answer.</p>
+            <p id="timer"></p>
+            <p id="question-text"></p>
+            <div id="options-area"></div>
+            <div id="explanation"></div>
+            <br>
+            <button id="submit-btn" onclick="submitAnswer()">Submit Answer</button>
+            <button id="restart-btn" onclick="restartQuiz()">Try Again</button>
+            <p id="score-banner"></p>
+        </div>
+        <div>
+            <a href="cybersecurity_news.html"><button>Next: Cybersecurity News →</button></a>
+        </div>
+    </main>
+    <footer>
+        <div>
+            <img src="shield.png" alt="Cyber World Logo">
+            <h4>CyberWorld</h4>
+            <h5>Secure Your Digital World</h5>
+        </div>
+        <div>
+            <a href="contact.html">Contact Us</a><br>
+            <p>© 2026 CyberWorld. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

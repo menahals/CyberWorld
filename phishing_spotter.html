@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Practice spotting phishing emails with CyberWorld's interactive Phishing Email Spotter tool.">
+    <title>Phishing Spotter - CyberWorld</title>
+    <link rel="icon" href="shield.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .email-card {
+            background: #0d1530;
+            border: 1px solid #1a2545;
+            border-radius: 6px;
+            padding: 24px 28px;
+            margin: 20px 0;
+        }
+        .email-field { margin: 5px 0; font-size: 0.9em; color: #ccd6f6; }
+        .email-field span { color: #8892b0; }
+        .email-body { color: #8892b0; line-height: 1.8; margin-top: 14px; font-size: 0.95em; }
+        .red-flag { color: #e83a3a; font-weight: bold; }
+        #verdict {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 5px;
+            font-size: 0.92em;
+            display: none;
+        }
+        #progress { color: #8892b0; font-size: 0.9em; margin-bottom: 8px; }
+        #final { display: none; text-align: center; padding: 20px; border-radius: 6px; font-size: 1.1em; font-weight: bold; margin: 20px 0; }
+        .btn-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+        .btn-legit { background: #1a2545; color: #ffffff; }
+    </style>
+    <script>
+        var titles = [
+            "Email 1 Sender: PayPal Support",
+            "Email 2 Sender: GitHub",
+            "Email 3 Sender: IT Department"
+        ];
+
+        var isPhishing = [true, false, true];
+
+        var current = 0;
+        var score = 0;
+
+        function showEmail(n) {
+
+            document.getElementById("email-area").innerHTML = getEmailHTML(n);
+            document.getElementById("verdict").style.display = "none";
+            document.getElementById("final").style.display = "none";
+        }
+
+        function getEmailHTML(n) {
+            if (n === 0) {
+                return "<div class='email-card'>" +
+                    "<div class='email-field'><span>From: </span>PayPal Support &lt;<span class='red-flag'>support@paypal-secure-login.net</span>&gt; ⚠ Not paypal.com!</div>" +
+                    "<div class='email-field'><span>To: </span>you@email.com</div>" +
+                    "<div class='email-field'><span>Subject: </span><span class='red-flag'>⚠ Your account has been limited!</span> ⚠ Alarm + urgency!</div>" +
+                    "<div class='email-body'>" +
+                    "Dear Customer,<br><br>" +
+                    "We have detected <span class='red-flag'>unusual activity on your account</span> ⚠ (vague claim, no details)<br>" +
+                    "and it has been temporarily limited.<br><br>" +
+                    "You must verify your identity within <span class='red-flag'>24 hours or your account will be permanently suspended.</span> ⚠ Fake deadline!<br><br>" +
+                    "Please click the link below to restore access:<br><br>" +
+                    "<span class='red-flag'>http://paypal-account-verify.ru/login</span> ⚠ Fake domain ending in .ru!<br><br>" +
+                    "Thank you,<br>The PayPal Team" +
+                    "</div></div>";
+            }
+            if (n === 1) {
+                return "<div class='email-card'>" +
+                    "<div class='email-field'><span>From: </span>GitHub &lt;noreply@github.com&gt;</div>" +
+                    "<div class='email-field'><span>To: </span>you@email.com</div>" +
+                    "<div class='email-field'><span>Subject: </span>[GitHub] A new public key was added to your account</div>" +
+                    "<div class='email-body'>" +
+                    "Hey there,<br><br>" +
+                    "A new public SSH key was added to your GitHub account.<br><br>" +
+                    "If you added this key, no action is needed.<br><br>" +
+                    "If you did not add this key, please visit github.com/settings/security to review your account.<br><br>" +
+                    "Thanks,<br>The GitHub Team" +
+                    "</div></div>";
+            }
+            if (n === 2) {
+                return "<div class='email-card'>" +
+                    "<div class='email-field'><span>From: </span>IT Department &lt;<span class='red-flag'>it-helpdesk@company-support-desk.com</span>&gt; ⚠ Not your company's domain!</div>" +
+                    "<div class='email-field'><span>To: </span>you@email.com</div>" +
+                    "<div class='email-field'><span>Subject: </span><span class='red-flag'>ACTION REQUIRED: Reset your password NOW</span> ⚠ All-caps urgency!</div>" +
+                    "<div class='email-body'>" +
+                    "Hello Employee,<br><br>" +
+                    "Our systems have flagged your account for a <span class='red-flag'>mandatory security audit.</span> ⚠ Vague threat, no details<br><br>" +
+                    "Use the link below to reset your credentials:<br><br>" +
+                    "<span class='red-flag'>https://company-password-reset.net/employee-login</span> ⚠ Not your real company domain!<br><br>" +
+                    "<span class='red-flag'>Failure to comply within 2 hours will result in account suspension.</span> ⚠ Fake deadline!<br><br>" +
+                    "IT Helpdesk" +
+                    "</div></div>";
+            }
+            return "";
+        }
+
+        function judge(calledPhishing) {
+            var correct = (calledPhishing === isPhishing[current]);
+            if (correct) {
+                score = score + 1;
+            }
+
+            var box = document.getElementById("verdict");
+            box.style.display = "block";
+
+            var verdicts = [
+                "This was PHISHING. Red flags: fake sender domain (paypal-secure-login.net), urgency language, vague threat, and a link to a .ru domain. Never click links in unexpected emails.",
+                "This was LEGITIMATE. The sender domain is github.com, no pressure or urgency, no suspicious links, and it directs you to the official site by name.",
+                "This was PHISHING (spear-phishing targeting employees). Red flags: external sender domain, all-caps urgency, fake reset link, vague audit claim, threatening deadline. When in doubt, call IT directly."
+            ];
+
+            if (correct) {
+                box.style.background = "#0d2a1a";
+                box.style.color = "#3ae87a";
+                box.style.border = "1px solid #3ae87a";
+                box.innerHTML = "Correct! " + verdicts[current];
+            } else {
+                box.style.background = "#2a0d0d";
+                box.style.color = "#e83a3a";
+                box.style.border = "1px solid #e83a3a";
+                box.innerHTML = "Not quite. " + verdicts[current];
+            }
+
+            document.getElementById("phish-btn").disabled = true;
+            document.getElementById("legit-btn").disabled = true;
+
+            if (current < titles.length - 1) {
+                document.getElementById("next-btn").style.display = "inline-block";
+            } else {
+                document.getElementById("finish-btn").style.display = "inline-block";
+            }
+        }
+
+        function nextEmail() {
+            current = current + 1;
+            document.getElementById("next-btn").style.display = "none";
+            document.getElementById("phish-btn").disabled = false;
+            document.getElementById("legit-btn").disabled = false;
+            showEmail(current);
+        }
+
+        function showFinal() {
+            document.getElementById("email-area").innerHTML = "";
+            document.getElementById("verdict").style.display = "none";
+            document.getElementById("progress").innerHTML = "";
+            document.getElementById("finish-btn").style.display = "none";
+
+            var f = document.getElementById("final");
+            f.style.display = "block";
+
+            if (score === 3) {
+                f.style.color = "#3ae87a";
+                f.style.border = "1px solid #3ae87a";
+                f.innerHTML = "Score: " + score + "/3 — Perfect! You think like a security analyst.<br><br><button onclick='restart()'>Try Again</button>";
+            } else if (score === 2) {
+                f.style.color = "#e8a23a";
+                f.style.border = "1px solid #e8a23a";
+                f.innerHTML = "Score: " + score + "/3 — Good instincts! Keep practising.<br><br><button onclick='restart()'>Try Again</button>";
+            } else {
+                f.style.color = "#e83a3a";
+                f.style.border = "1px solid #e83a3a";
+                f.innerHTML = "Score: " + score + "/3 — Phishing emails are tricky — review the red flags and try again.<br><br><button onclick='restart()'>Try Again</button>";
+            }
+        }
+
+        function restart() {
+            current = 0;
+            score = 0;
+            document.getElementById("next-btn").style.display = "none";
+            document.getElementById("finish-btn").style.display = "none";
+            document.getElementById("phish-btn").disabled = false;
+            document.getElementById("legit-btn").disabled = false;
+            document.getElementById("final").style.display = "none";
+            showEmail(0);
+        }
+
+        window.onload = function() {
+            showEmail(0);
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <div>
+            <img src="shield.png" alt="Cyber World Logo">
+            <h4>CyberWorld</h4>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="cyber_threats.html">Cyber Threats</a>
+            <a href="stay_safe_online.html">Stay Safe Online</a>
+            <a href="password_guide.html">Password Guide</a>
+            <a href="phishing_spotter.html">Phishing Spotter</a>
+            <a href="cyber_quiz.html">Test Your Knowledge</a>
+            <a href="cybersecurity_news.html">Cybersecurity News</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+    <main>
+        <img src="mail1.png" alt="Phishing Spotter">
+        <h1>Phishing Email Spotter</h1>
+        <p>Red flags are highlighted in red directly in each email. Read carefully, then decide: is it phishing or legitimate?</p>
+
+        <p id="progress"></p>
+        <div id="email-area"></div>
+        <div id="verdict"></div>
+        <div id="final"></div>
+
+        <div class="btn-row">
+            <button id="phish-btn" onclick="judge(true)">This is Phishing</button>
+            <button id="legit-btn" class="btn-legit" onclick="judge(false)">This is Legitimate</button>
+            <button id="next-btn" onclick="nextEmail()" style="display:none;">Next Email →</button>
+            <button id="finish-btn" onclick="showFinal()" style="display:none;">See My Score</button>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a href="cyber_threats.html"><button>← Back: Cyber Threats</button></a>
+        </div>
+    </main>
+    <footer>
+        <div>
+            <img src="shield.png" alt="Cyber World Logo">
+            <h4>CyberWorld</h4>
+            <h5>Secure Your Digital World</h5>
+        </div>
+        <div>
+            <a href="contact.html">Contact Us</a><br>
+            <p>© 2026 CyberWorld. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

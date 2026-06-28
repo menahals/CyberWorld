@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Practical tips and best practices to protect your personal data and stay secure online.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay Safe Online</title>
+    <link rel="icon" href="shield.png">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function checkChecklist() {
+            var boxes = document.getElementsByClassName("tip");
+            var score = 0;
+            for (var i = 0; i < boxes.length; i++) {
+                if (boxes[i].checked) {
+                    score++;
+                }
+            }
+            var result = document.getElementById("checkResult");
+            if (score === 5) {
+                result.innerHTML = "Cyber Secure: Level 5/5";
+                result.style.color = "#3ae87a";
+            } 
+            else if (score >= 3) {
+                result.innerHTML = "Good habits, but stay alert";
+                result.style.color = "#e8a23a";
+            } 
+            else {
+                result.innerHTML = "Risk detected, improve your security habits";
+                result.style.color = "#e83a3a";
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div>
+            <img src="shield.png" alt="Cyber World Logo">
+            <h4>CyberWorld</h4>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="cyber_threats.html">Cyber Threats</a>
+            <a href="stay_safe_online.html">Stay Safe Online</a>
+            <a href="password_guide.html">Password Guide</a>
+            <a href="phishing_spotter.html">Phishing Spotter</a>
+            <a href="cyber_quiz.html">Test Your Knowledge</a>
+            <a href="cybersecurity_news.html">Cybersecurity News</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+    <main>
+        <img src="shield2.png" alt="Stay Safe Online">
+        <h1>Stay Safe Online</h1>
+        <p>Practical tips and best practices to protect your personal data and maintain your digital security while navigating the online world.</p>
+        <div>
+            <h3>Password Security</h3>
+            <ol>
+                <li>Use strong, unique passwords for each account.</li>
+                <li>Enable two-factor authentication (2FA) whenever possible.</li>
+                <li>Avoid sharing passwords and use a reputable password manager.</li>
+                <li>Change passwords regularly.</li>
+            </ol>
+        </div>
+        <div>
+            <h3>Safe Browsing Practices</h3>
+            <ol>
+                <li>Keep your browser and plugins up to date.</li>
+                <li>Be cautious when clicking on links or downloading attachments.</li>
+                <li>Use a reputable antivirus program and keep it updated.</li>
+                <li>Avoid visiting suspicious or untrusted websites.</li>
+            </ol>
+        </div>
+        <div>
+            <h3>Public WiFi Safety</h3>
+            <ol>
+                <li>Forget networks after use.</li>
+                <li>Avoid accessing sensitive accounts or performing financial transactions.</li>
+                <li>Ensure your device's firewall is enabled.</li>
+                <li>Keep your device's software updated.</li>
+            </ol>
+        </div>
+        <div>
+            <h3>Personal Data Protection</h3>
+            <ol>
+                <li>Don't overshare personal information online.</li>
+                <li>Verify requests for personal information.</li>
+                <li>Review your privacy settings on social media platforms.</li>
+                <li>Shred documents containing sensitive information before disposal.</li>
+            </ol>
+        </div>
+        <div>
+            <h3>Device Security</h3>
+            <ol>
+                <li>Keep operating systems and apps updated.</li>
+                <li>Use screen and biometric authentication.</li>
+                <li>Install apps from official sources only.</li>
+                <li>Backup important data regularly</li>
+            </ol>
+        </div>
+        <div>
+            <h3>Essential Security Checklist</h3>
+            <form>
+                <p>
+                    <label>
+                        <input type="checkbox" class="tip">
+                        Use strong, unique passwords for every account
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="checkbox" class="tip">
+                        Enable two-factor authentication (2FA)
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="checkbox" class="tip">
+                        Keep software and systems updated
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="checkbox" class="tip">
+                        Be cautious when clicking on links or downloading attachments
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="checkbox" class="tip">
+                        Don't overshare personal information online
+                    </label>
+                </p>
+            </form>
+            <button onclick="checkChecklist()">Check Answers</button>
+            <p id="checkResult"></p>
+        </div>
+
+        <div>
+            <a href="password_guide.html"><button>Next: Password Guide →</button></a>
+        </div>
+    </main>   
+    <footer>
+        <div>
+            <img src="shield.png" alt="Cyber World Logo">
+            <h4>CyberWorld</h4>
+            <h5>Secure Your Digital World</h5>
+        </div>
+        <div>
+            <a href="contact.html">Contact Us</a><br>
+            <p>© 2026 CyberWorld. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
