@@ -21,6 +21,7 @@ CyberWorld is an interactive cybersecurity awareness website designed to educate
 - Responsive Web Design
 
 ## 📂 Project Structure
+```text
   CyberWorld/
   │
   ├── index.html
@@ -33,6 +34,7 @@ CyberWorld is an interactive cybersecurity awareness website designed to educate
   ├── contact.html
   ├── style.css
   ├── images and icons
+```
 
   ## 🎯 Purpose
 
