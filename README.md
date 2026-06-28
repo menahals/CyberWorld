@@ -1,59 +1,57 @@
-# CyberWorld 🛡️
+# 🛡️ CyberWorld
 
-An interactive, educational cybersecurity website built with HTML, CSS, and vanilla JavaScript. Designed to help everyday users understand online threats and practise safe digital habits.
+CyberWorld is an interactive cybersecurity awareness website designed to educate users about online safety and common cyber threats. The website provides learning materials, quizzes, and practical guides to help users improve their cybersecurity knowledge.
 
-**Live site:** [Deploy to GitHub Pages to generate link]
+## 🌟 Features
 
----
+- 🏠 Visually appealing home page
+- ⚠️ Cyber Threats page explaining common attacks
+- 🔐 Password Security Guide
+- 🎣 Phishing Spotter training page
+- 📰 Latest Cybersecurity News section
+- 🛡️ Stay Safe Online tips and recommendations
+- 🧠 Interactive Cybersecurity Quiz
+- 📞 Contact page
 
-## Pages
+## 🛠️ Technologies Used
 
-| Page | Description |
-|------|-------------|
-| Home | Overview and navigation hub |
-| Cyber Threats | Covers phishing, malware, ransomware, identity theft, MitM, social engineering |
-| Stay Safe Online | Best practices checklist with interactive self-assessment |
-| Password Guide | Password strength checker with live feedback |
-| **Phishing Spotter** | Interactive tool — hover to reveal red flags in real phishing emails, then judge them |
-| **Cybersecurity Quiz** | 10 randomised questions across Easy / Medium / Hard, with a 20s timer and per-question explanations |
-| Cybersecurity News | Real-world breach coverage with severity badges and security insights |
-| Contact | General enquiry form |
+- HTML5
+- CSS3
+- JavaScript
+- Responsive Web Design
 
----
+## 📂 Project Structure
+```text
+CyberWorld/
+│
+├── index.html
+├── cyber_quiz.html
+├── cyber_threats.html
+├── password_guide.html
+├── phishing_spotter.html
+├── cybersecurity_news.html
+├── stay_safe_online.html
+├── contact.html
+├── style.css
+├── images and icons
+```
+## 🎯 Purpose
 
-## Features
+The purpose of this project is to raise awareness about cybersecurity and help users:
 
-- **Phishing Email Spotter** — annotated fake emails where users hover to discover red flags, then classify the email as phishing or legitimate. Includes a final score and analyst-style verdict.
-- **Expanded Quiz** — 12-question bank, 10 drawn randomly per session, difficulty-tagged (Easy / Medium / Hard), timed (20s per question), with explanations on every answer.
-- **Password Strength Checker** — live per-character feedback on length, case, numbers, special characters.
-- **Security Checklist** — interactive self-assessment on the Stay Safe Online page.
-- **Real Incident Coverage** — cybersecurity news sourced from CSIS and industry trackers, with severity labels and actionable takeaways.
+- Recognize cyber threats
+- Create stronger passwords
+- Identify phishing attempts
+- Practice safe online habits
+- Test their cybersecurity knowledge through quizzes
 
----
+## 🚀 How to run the project
 
-## Tech Stack
+1. Download or clone the repository:
 
-- HTML5, CSS3, Vanilla JavaScript (no frameworks or dependencies)
-- Deployed via GitHub Pages
+```bash
+git clone https://github.com/menahals/CyberWorld.git
+```
+2. Open index.html in your browser.
 
----
-
-## Deploying to GitHub Pages
-
-1. Push this repository to GitHub
-2. Go to **Settings → Pages**
-3. Set source to `main` branch, `/ (root)`
-4. Your site will be live at `https://<username>.github.io/<repo-name>/`
-
----
-
-## What I Learned
-
-- Structuring a multi-page static site with shared CSS
-- Building interactive JavaScript tools without frameworks (quiz engine, phishing spotter, password evaluator)
-- Translating real cybersecurity concepts (CVE awareness, phishing indicators, threat classifications) into accessible educational content
-- Sourcing and contextualising real-world breach data
-
----
-
-*Built as a personal cybersecurity education project.*
+‼️Note: This project is shared for career-related purposes. If used for academic coursework, please follow your institution’s academic integrity policy.
